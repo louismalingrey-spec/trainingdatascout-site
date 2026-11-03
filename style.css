@@ -57,8 +57,9 @@ body {
 }
 .wordmark .block {
   display: inline-block;
-  width: 0.5em; height: 0.5em;
-  margin-left: 0.22em;
+  width: 0.698em; height: 0.698em; /* Plex Sans cap height 698/1000 em */
+  margin: 0 0 0 0.22em;
+  vertical-align: baseline;
   background: var(--ink);
 }
 
