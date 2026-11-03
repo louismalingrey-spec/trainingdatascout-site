@@ -1,0 +1,178 @@
+/* Training Data Scout — boxy, one family (IBM Plex Sans, SIL OFL, self-hosted) */
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("assets/fonts/plex-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("assets/fonts/plex-600.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
+:root {
+  --paper: #e7e8e6;
+  --ink: #101112;
+  --muted: #4a4e51;      /* 6.9:1 on paper */
+  --line: #101112;
+  --pad: clamp(1.25rem, 4vw, 3rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--paper); }
+
+body {
+  margin: 0;
+  padding: clamp(0.75rem, 2.5vw, 2rem);
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.6 "IBM Plex Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: 0.5rem; top: -4rem;
+  padding: 0.6rem 1rem; background: var(--ink); color: var(--paper);
+}
+.skip:focus-visible { top: 0.5rem; z-index: 10; }
+
+.frame {
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+}
+
+/* Header: wordmark only */
+.bar {
+  padding: 1.1rem var(--pad);
+  border-bottom: 1px solid var(--line);
+}
+.wordmark {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.wordmark .block {
+  display: inline-block;
+  width: 0.5em; height: 0.5em;
+  margin-left: 0.22em;
+  background: var(--ink);
+}
+
+/* Photo with pixel-dithered lower edge */
+.photo {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+.photo img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%;
+  filter: grayscale(1) contrast(1.05);
+}
+.photo canvas {
+  position: absolute; left: 0; right: 0; bottom: -1px;
+  width: 100%; height: 46%;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* Statement */
+.statement {
+  padding: clamp(3.5rem, 9vw, 8rem) var(--pad) clamp(4rem, 10vw, 9rem);
+}
+.statement p {
+  max-width: 30em;
+  margin: 0 auto;
+  text-align: center;
+  font-size: clamp(1.4rem, 2.6vw, 2.0625rem);
+  line-height: 1.32;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+.statement .hello { display: block; margin-bottom: 0.6em; font-weight: 600; }
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--line);
+}
+.card {
+  padding: clamp(1.75rem, 4vw, 3.25rem) var(--pad) clamp(2.25rem, 5vw, 4.5rem);
+  min-height: 14rem;
+}
+.card + .card { border-left: 1px solid var(--line); }
+.card h2 {
+  margin: 0 0 1rem;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.card p {
+  margin: 0;
+  max-width: 22em;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* Contact */
+.contact { border-top: 1px solid var(--line); }
+.mail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.35rem;
+  padding: clamp(2.25rem, 5vw, 3.5rem) var(--pad);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.mail-lead { color: var(--muted); font-size: 0.875rem; transition: color 0.15s; }
+.mail-addr {
+  font: inherit;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.mail:hover .mail-addr, .mail:focus-visible .mail-addr { opacity: 0.85; }
+.mail:hover, .mail:focus-visible { background: var(--ink); color: var(--paper); }
+.mail:hover .mail-lead, .mail:focus-visible .mail-lead { color: #c9cbc9; }
+.mail:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* Footer */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 2rem;
+  padding: 1.25rem var(--pad);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 720px) {
+  .photo { aspect-ratio: 4 / 5; }
+  .photo img { object-position: 38% 50%; }
+  .photo canvas { height: 34%; }
+  .cards { grid-template-columns: 1fr; }
+  .card + .card { border-left: 0; border-top: 1px solid var(--line); }
+  .card { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mail, .mail-lead, .mail-addr { transition: none; }
+}
