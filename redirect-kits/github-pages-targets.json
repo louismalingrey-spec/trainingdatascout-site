@@ -1,0 +1,32 @@
+{
+  "fetched_on": "2026-11-07",
+  "owner": "louismalingrey-spec",
+  "destination": "https://trainingdatascout.com/",
+  "sources": [
+    "https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site",
+    "https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https",
+    "https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages",
+    "https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages"
+  ],
+  "apex_a": [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153"
+  ],
+  "apex_aaaa": [
+    "2606:50c0:8000::153",
+    "2606:50c0:8001::153",
+    "2606:50c0:8002::153",
+    "2606:50c0:8003::153"
+  ],
+  "www_cname": "louismalingrey-spec.github.io",
+  "www_cname_fqdn": "louismalingrey-spec.github.io.",
+  "verification_txt_host": "_github-pages-challenge-louismalingrey-spec",
+  "repos": {
+    "trainingdatascoutco.com": "redirect-trainingdatascoutco",
+    "trainingdatascoutfirm.com": "redirect-trainingdatascoutfirm",
+    "trainingdatascoutgroup.com": "redirect-trainingdatascoutgroup",
+    "trainingdatascoutpartners.com": "redirect-trainingdatascoutpartners"
+  }
+}

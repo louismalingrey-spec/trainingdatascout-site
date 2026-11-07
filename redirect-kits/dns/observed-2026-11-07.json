@@ -1,0 +1,233 @@
+{
+  "observed_at_utc": "2026-11-07T01:06:30Z",
+  "method": "Public resolver dig and HEAD requests. This is not a Google Cloud DNS zone export. Re-export the zone in Mailpool before editing, and keep the live MX, SPF, DKIM, DMARC, and google-site-verification values if they differ.",
+  "landing": {
+    "apex_a": [
+      "185.199.108.153",
+      "185.199.109.153",
+      "185.199.110.153",
+      "185.199.111.153"
+    ],
+    "apex_aaaa": [],
+    "apex_caa": [],
+    "www_cname": [
+      "louismalingrey-spec.github.io."
+    ],
+    "ns": [
+      "launch1.spaceship.net.",
+      "launch2.spaceship.net."
+    ],
+    "https_apex": {
+      "status_line": "HTTP/2 200 ",
+      "server": "GitHub.com",
+      "location": null,
+      "x_bot_barrier": null
+    },
+    "https_www": {
+      "status_line": "HTTP/2 301 ",
+      "server": "GitHub.com",
+      "location": "https://trainingdatascout.com/",
+      "x_bot_barrier": null
+    },
+    "http_apex": {
+      "status_line": "HTTP/1.1 301 Moved Permanently",
+      "server": "GitHub.com",
+      "location": "https://trainingdatascout.com/",
+      "x_bot_barrier": null
+    }
+  },
+  "zones": {
+    "trainingdatascoutco.com": {
+      "ns": [
+        "ns-cloud-c1.googledomains.com.",
+        "ns-cloud-c2.googledomains.com.",
+        "ns-cloud-c3.googledomains.com.",
+        "ns-cloud-c4.googledomains.com."
+      ],
+      "soa": [
+        "ns-cloud-c1.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
+      ],
+      "apex_a": [
+        "35.208.109.108"
+      ],
+      "apex_aaaa": [],
+      "apex_caa": [],
+      "apex_mx": [
+        "1 smtp.google.com."
+      ],
+      "apex_txt": [
+        "\"google-site-verification=Otxju22q6vXJtGvK2tYi4FsZJJ5PNHyNrY-68Lep00I\"",
+        "\"v=spf1 include:_spf.google.com ~all\""
+      ],
+      "www_a": [
+        "35.208.109.108"
+      ],
+      "www_aaaa": [],
+      "www_cname": [],
+      "www_txt": [],
+      "www_mx": [],
+      "dmarc_txt": [
+        "\"v=DMARC1; p=quarantine; fo=1; pct=100; rf=afrf; ri=86400; sp=quarantine; aspf=s; adkim=s\""
+      ],
+      "dkim_google_txt": [
+        "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk1InyROY4Pq6V+QwGMQTOMZGUHa2Y9iX7/Sd8JLhtPYtT5KXTL6z4KiJCbqGeO9FojfqSYW7u/hUulMCshVtfCDSFaTU7qBsOImiYwNnsGJL9GuHFB6YB9JtZAIfKwWW45eMKAENCjDaRHV8w0b1hLZbUaj5Sa+39jF83VKhkg78cOPKD8daZBdT2g+0WfK0U\" \"albeleyykzpjj3YxfBJqjx8oM3mGfdUyEhzw3hervN35ximDQCGRrmTyHt3bE/+prVHLxok+0AoMAJ/W2MyfMKASPPur9IGwrxFC18e003LWn8wMS/Rflddl4To+VBo++saOwTocYyBhWfDVEx7hwIDAQAB\""
+      ],
+      "https_apex": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      },
+      "https_www": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      }
+    },
+    "trainingdatascoutfirm.com": {
+      "ns": [
+        "ns-cloud-e1.googledomains.com.",
+        "ns-cloud-e2.googledomains.com.",
+        "ns-cloud-e3.googledomains.com.",
+        "ns-cloud-e4.googledomains.com."
+      ],
+      "soa": [
+        "ns-cloud-e1.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
+      ],
+      "apex_a": [
+        "35.208.229.137"
+      ],
+      "apex_aaaa": [],
+      "apex_caa": [],
+      "apex_mx": [
+        "1 smtp.google.com."
+      ],
+      "apex_txt": [
+        "\"google-site-verification=miGYrvEoV8U3Mr3cqp8pRDOlqzIRBonkbta4K--PWDE\"",
+        "\"v=spf1 include:_spf.google.com ~all\""
+      ],
+      "www_a": [
+        "35.208.229.137"
+      ],
+      "www_aaaa": [],
+      "www_cname": [],
+      "www_txt": [],
+      "www_mx": [],
+      "dmarc_txt": [
+        "\"v=DMARC1; p=quarantine; fo=1; pct=100; rf=afrf; ri=86400; sp=quarantine; aspf=s; adkim=s\""
+      ],
+      "dkim_google_txt": [
+        "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs6YxrvswMecuNZxwlrGTjGd6VP+8LcMsctXobbY2xvnOqnX/+ZXHFGsK0VMipuebgORx/Dju/0D9TqrU8GqDBKFcx6fLfzfrwWdx8WHmKjR8PIgUGI8PMDRQlSxzUfIv73J2g5prcGlssxeMYNINEwdzCPjgN+IfSrGxDa7KUA4b/QBiEe1xMIZxZwT8gyRI6\" \"ZqYxVOMbCANgXkae9AzKud2JdDjwAG7YroeJ0H15eAPQpSR4HNni4HY9VFnjshWkqiXiV8NCzdr0nEwbG8yvAwriK3e3xwnOaj2mfxGfKXkIaznF6aZBThZfegCLOoEMynoNJ1aGMagsii65ZQMtQIDAQAB\""
+      ],
+      "https_apex": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      },
+      "https_www": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      }
+    },
+    "trainingdatascoutgroup.com": {
+      "ns": [
+        "ns-cloud-d1.googledomains.com.",
+        "ns-cloud-d2.googledomains.com.",
+        "ns-cloud-d3.googledomains.com.",
+        "ns-cloud-d4.googledomains.com."
+      ],
+      "soa": [
+        "ns-cloud-d1.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
+      ],
+      "apex_a": [
+        "35.209.3.54"
+      ],
+      "apex_aaaa": [],
+      "apex_caa": [],
+      "apex_mx": [
+        "1 smtp.google.com."
+      ],
+      "apex_txt": [
+        "\"google-site-verification=vf78gORXh5WKr6daHyFxfWC02eKcta_e37N4WjQ6mwI\"",
+        "\"v=spf1 include:_spf.google.com ~all\""
+      ],
+      "www_a": [
+        "35.209.3.54"
+      ],
+      "www_aaaa": [],
+      "www_cname": [],
+      "www_txt": [],
+      "www_mx": [],
+      "dmarc_txt": [
+        "\"v=DMARC1; p=quarantine; fo=1; pct=100; rf=afrf; ri=86400; sp=quarantine; aspf=s; adkim=s\""
+      ],
+      "dkim_google_txt": [
+        "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoE3836GHZZhMthk6f6c4QLAT2HOgLSnMdgEPwlbJZiZ2K9sLOJKBmkzj6K7zLwCcX6AGVRgVaO7me411ElhxthA4Eoc7FZAv0BDO3Uk0EU4RNjoem+sQTTKbXUDwuwTPwkagkUHm/NubZzNjJGSnx4RyTqRK7qgvLIFXR1Es/vZHhoVdqzzzlod12+0Y/0UP/\" \"UJxRZwRUFkOCWbBxhctrwW1C7s9JIYXuNTiqA0Se0MDpgHlJQ2cVzgWx4i85klOxDBdedDzfJMyRPNB1V3Z/3Fs8hPsorYnCAhof9/cY3mQOkDrQE/FIKp//2Wchr3Q2J0CJqwbt2DRg6lhVjKjhwIDAQAB\""
+      ],
+      "https_apex": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      },
+      "https_www": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      }
+    },
+    "trainingdatascoutpartners.com": {
+      "ns": [
+        "ns-cloud-e1.googledomains.com.",
+        "ns-cloud-e2.googledomains.com.",
+        "ns-cloud-e3.googledomains.com.",
+        "ns-cloud-e4.googledomains.com."
+      ],
+      "soa": [
+        "ns-cloud-e1.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
+      ],
+      "apex_a": [
+        "35.209.224.115"
+      ],
+      "apex_aaaa": [],
+      "apex_caa": [],
+      "apex_mx": [
+        "1 smtp.google.com."
+      ],
+      "apex_txt": [
+        "\"google-site-verification=68aSE77K2T8kyhz-OSCutPvFPC8XTZADVyhlQZnM92c\"",
+        "\"v=spf1 include:_spf.google.com ~all\""
+      ],
+      "www_a": [
+        "35.209.224.115"
+      ],
+      "www_aaaa": [],
+      "www_cname": [],
+      "www_txt": [],
+      "www_mx": [],
+      "dmarc_txt": [
+        "\"v=DMARC1; p=quarantine; fo=1; pct=100; rf=afrf; ri=86400; sp=quarantine; aspf=s; adkim=s\""
+      ],
+      "dkim_google_txt": [
+        "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnL2ySpDwGX/ImI2+HMjybYN6dL+/QUtzmXncfmDz8HJPR2Uj7UhsA1+NMHbCI9r3uluOYblu+o1HBZVt7lhaRudGdPtCqsM9UPRyysfGVF+idxgpe/vREj/LObgqD5y9Wl5IAKmfk+b3d5D6SnroIxcZ2kzGTRJMZ/c8Af4cG6dc6QNC9V8X00wpHuKOiIE2X\" \"DOwVFmGdOszk1zTTCQgCsQTqsyJ4eTpa+0cBltzpo9XMKOKtANJH+Eb4FDdOWmBKrrXjiFgBzNGOy7BDipbJa1WHTtM/LHXiuOGTCZrl8XMXOUCAVTvRFjjGbsgGOvDuqNu9a8jB7fLqnKve0w/AQIDAQAB\""
+      ],
+      "https_apex": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      },
+      "https_www": {
+        "status_line": "HTTP/2 200 ",
+        "server": "Caddy",
+        "location": null,
+        "x_bot_barrier": "challenge"
+      }
+    }
+  }
+}
