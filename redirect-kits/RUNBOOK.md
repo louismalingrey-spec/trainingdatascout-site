@@ -2,6 +2,8 @@
 
 Prepared 2026-11-07. These files are ready to copy into four new repositories. They are not deployed. No GitHub repository was created, no DNS record was changed, and the landing site `trainingdatascout.com` was left as it is.
 
+On 2026-11-07 the approved names `trainingdatascoutco-redirect`, `trainingdatascoutfirm-redirect`, `trainingdatascoutgroup-redirect`, and `trainingdatascoutpartners-redirect` were absent under `louismalingrey-spec` (HTTP 404). The cloud session is a GitHub App installation whose repository list contains only `trainingdatascout-site`. `GET /user` and `GET /user/repos` return `403 Resource not accessible by integration`, so this session cannot call the documented `POST /user/repos` as that user. Create the four public repositories while logged in as `louismalingrey-spec`, from https://github.com/new or with `gh repo create` using a token that has the `public_repo` or `repo` scope. Leave each repository empty, then push only the four site files below. Copy nothing from a DNS export into the repository.
+
 The redirect in each kit is a browser redirect: a zero-delay meta refresh, `location.replace`, and a visible link. All three use the fixed URL `https://trainingdatascout.com/`. The warming host itself answers with the HTML page. That hop is not an HTTP 301.
 
 ## Architecture
@@ -19,10 +21,10 @@ Each warming apex therefore gets its own public repository, its own Pages site, 
 
 | Apex | New repository | Folder to publish as that repository root |
 | --- | --- | --- |
-| `trainingdatascoutco.com` | `louismalingrey-spec/redirect-trainingdatascoutco` | `redirect-kits/trainingdatascoutco.com/` |
-| `trainingdatascoutfirm.com` | `louismalingrey-spec/redirect-trainingdatascoutfirm` | `redirect-kits/trainingdatascoutfirm.com/` |
-| `trainingdatascoutgroup.com` | `louismalingrey-spec/redirect-trainingdatascoutgroup` | `redirect-kits/trainingdatascoutgroup.com/` |
-| `trainingdatascoutpartners.com` | `louismalingrey-spec/redirect-trainingdatascoutpartners` | `redirect-kits/trainingdatascoutpartners.com/` |
+| `trainingdatascoutco.com` | `louismalingrey-spec/trainingdatascoutco-redirect` | `redirect-kits/trainingdatascoutco.com/` |
+| `trainingdatascoutfirm.com` | `louismalingrey-spec/trainingdatascoutfirm-redirect` | `redirect-kits/trainingdatascoutfirm.com/` |
+| `trainingdatascoutgroup.com` | `louismalingrey-spec/trainingdatascoutgroup-redirect` | `redirect-kits/trainingdatascoutgroup.com/` |
+| `trainingdatascoutpartners.com` | `louismalingrey-spec/trainingdatascoutpartners-redirect` | `redirect-kits/trainingdatascoutpartners.com/` |
 
 Those repository names were unused on the account on 2026-11-07. The account's other repositories were `trainingdatascout-site` and `nanoclaw`.
 
@@ -58,7 +60,7 @@ An extra `A` or `AAAA` on the apex, or a `www` record other than that `CNAME`, c
 
 ## Records observed on 2026-11-07
 
-Public lookup at `2026-11-07T01:06:30Z`. The full copy, including DKIM, is `dns/observed-2026-11-07.json`. Export the zone again from Mailpool workspace 6638 before editing. If a mail record differs from this snapshot, keep the live value. `trainingdatascoutfirm.com` and `trainingdatascoutpartners.com` both use the `ns-cloud-e` nameserver names and are separate zones; open the zone by domain name.
+Public address lookup on 2026-11-07. Export the zone from Mailpool workspace 6638 before editing and keep that export locally. This repository does not store the mail records. `trainingdatascoutfirm.com` and `trainingdatascoutpartners.com` both use the `ns-cloud-e` nameserver names and are separate zones; open the zone by domain name.
 
 | Zone | Apex `A` and `www` `A` to remove | Nameservers, unchanged |
 | --- | --- | --- |
@@ -67,15 +69,7 @@ Public lookup at `2026-11-07T01:06:30Z`. The full copy, including DKIM, is `dns/
 | `trainingdatascoutgroup.com` | `35.209.3.54` | `ns-cloud-d1` through `ns-cloud-d4.googledomains.com` |
 | `trainingdatascoutpartners.com` | `35.209.224.115` | `ns-cloud-e1` through `ns-cloud-e4.googledomains.com` |
 
-On all four zones, `www` has only that `A` record. The apex also has:
-
-- `MX` `1 smtp.google.com.`
-- `TXT` `v=spf1 include:_spf.google.com ~all`
-- `TXT` `google-site-verification=` with a distinct value per zone, stored in the JSON snapshot
-- `TXT` at `_dmarc` equal to `v=DMARC1; p=quarantine; fo=1; pct=100; rf=afrf; ri=86400; sp=quarantine; aspf=s; adkim=s`
-- `TXT` at `google._domainkey`, two quoted strings, stored in the JSON snapshot
-
-Those TTL values were 5 seconds. HTTPS on all eight hostnames returned `200` from `Caddy` with `x-bot-barrier: challenge` and no `Location` header. The certificate presented for each apex listed only that apex.
+On all four zones, `www` had only that `A` record. Each apex also had `MX`, SPF, a `google-site-verification` TXT, `_dmarc`, and `google._domainkey`. Leave every one of those records exactly as it is in the Mailpool export. Their TTL on the web address records was 5 seconds. HTTPS on all eight hostnames returned `200` from `Caddy` with `x-bot-barrier: challenge` and no `Location` header. The certificate presented for each apex listed only that apex.
 
 ## Order of work
 
@@ -87,7 +81,7 @@ Repeat the whole sequence for one domain before starting the next. The landing r
 
 ```sh
 DOMAIN=trainingdatascoutco.com
-REPO=redirect-trainingdatascoutco
+REPO=trainingdatascoutco-redirect
 rm -rf "/tmp/$REPO"
 mkdir "/tmp/$REPO"
 cp "redirect-kits/$DOMAIN/index.html" "redirect-kits/$DOMAIN/404.html" \
@@ -119,7 +113,7 @@ Return to the profile Pages page and choose Verify. Leave the `TXT` record in pl
 
 5. In the new repository's Pages settings, set Custom domain to the apex and save. Leave Enforce HTTPS unchecked. The root `CNAME` must remain one line containing that apex. `www` is not written in `CNAME`; GitHub uses it as the companion host when its DNS `CNAME` is in place.
 
-6. Export the zone from Mailpool. Compare `MX`, SPF, `google-site-verification`, `_dmarc`, and `google._domainkey` with `dns/observed-2026-11-07.json`.
+6. Export the zone from Mailpool and keep it outside this repository. After the address edit, the export's `MX`, SPF, `google-site-verification`, `_dmarc`, and `google._domainkey` records must still match the zone.
 
 7. Change only the web address records. Nameservers stay on the Google Cloud DNS hosts already published.
 
@@ -175,6 +169,6 @@ python3 redirect-kits/tests/test_redirects.py
 python3 redirect-kits/tests/test_redirects.py --dns-pre
 ```
 
-The default command checks the four kits and opens them in headless Chrome, including a path, a query string, and script disabled. `--dns-pre` compares live DNS with the snapshot. `--dns-post` is the acceptance check and fails until the cutover is done.
+The default command checks the four kits and opens them in headless Chrome, including a path, a query string, and script disabled. `--dns-pre` checks that apex and `www` still use the Mailpool addresses in the table. `--dns-post` is the acceptance check and fails until the cutover is done.
 
 Claude Code CLI was not installed in the environment that prepared these files (`claude` was absent from `PATH`). The kits and tests were written and run directly.

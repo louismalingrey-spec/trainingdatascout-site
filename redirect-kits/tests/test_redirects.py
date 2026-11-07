@@ -37,6 +37,12 @@ DOMAINS = (
 )
 SCRIPT = 'location.replace("https://trainingdatascout.com/");'
 REFRESH = "0; url=https://trainingdatascout.com/"
+MAILPOOL_A = {
+    "trainingdatascoutco.com": "35.208.109.108",
+    "trainingdatascoutfirm.com": "35.208.229.137",
+    "trainingdatascoutgroup.com": "35.209.3.54",
+    "trainingdatascoutpartners.com": "35.209.224.115",
+}
 LANDING_FILES = (
     "CNAME",
     "index.html",
@@ -238,17 +244,12 @@ def assert_redirect_html(html: str) -> None:
             raise AssertionError(banned)
 
 
-def zone_observation(zone: str) -> dict:
+def address_observation(zone: str) -> dict:
     return {
         "apex_a": dig_short(zone, "A"),
         "apex_aaaa": dig_short(zone, "AAAA"),
-        "apex_mx": dig_short(zone, "MX"),
-        "apex_txt": sorted(dig_short(zone, "TXT")),
         "www_a": dig_short(f"www.{zone}", "A"),
         "www_cname": dig_short(f"www.{zone}", "CNAME"),
-        "dmarc_txt": dig_short(f"_dmarc.{zone}", "TXT"),
-        "dkim_google_txt": dig_short(f"google._domainkey.{zone}", "TXT"),
-        "ns": sorted(dig_short(zone, "NS")),
     }
 
 
@@ -296,9 +297,8 @@ def certificate_names(host: str) -> list[str]:
     return names
 
 
-def assess_post(zone: str, observed: dict, snapshot: dict, targets: dict) -> list[str]:
+def assess_post(zone: str, observed: dict, targets: dict) -> list[str]:
     errors = []
-    saved = snapshot["zones"][zone]
     if set(observed["apex_a"]) != set(targets["apex_a"]):
         errors.append(f"{zone} apex A is {observed['apex_a']}")
     if set(observed["apex_aaaa"]) != set(targets["apex_aaaa"]):
@@ -307,9 +307,6 @@ def assess_post(zone: str, observed: dict, snapshot: dict, targets: dict) -> lis
         errors.append(f"{zone} www still has A records {observed['www_a']}")
     if observed["www_cname"] != [targets["www_cname_fqdn"]]:
         errors.append(f"{zone} www CNAME is {observed['www_cname']}")
-    for label in ("apex_mx", "apex_txt", "dmarc_txt", "dkim_google_txt", "ns"):
-        if observed[label] != saved[label]:
-            errors.append(f"{zone} {label} changed from the 2026-11-07 snapshot")
     if observed.get("apex_status") != "200":
         errors.append(f"{zone} apex HTTPS status is {observed.get('apex_status')}")
     location = observed.get("apex_location") or ""
@@ -335,7 +332,6 @@ class RedirectKitTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.targets = load_json("github-pages-targets.json")
-        cls.snapshot = load_json("dns/observed-2026-11-07.json")
         cls.html = (KITS / DOMAINS[0] / "index.html").read_text()
 
     def test_destination_constant_matches_pages_target(self) -> None:
@@ -364,42 +360,38 @@ class RedirectKitTests(unittest.TestCase):
         self.assertIn(self.targets["www_cname"], runbook)
         self.assertIn(DESTINATION, runbook)
         self.assertIn(self.targets["verification_txt_host"], runbook)
-        for domain, address in (
-            ("trainingdatascoutco.com", "35.208.109.108"),
-            ("trainingdatascoutfirm.com", "35.208.229.137"),
-            ("trainingdatascoutgroup.com", "35.209.3.54"),
-            ("trainingdatascoutpartners.com", "35.209.224.115"),
-        ):
-            self.assertEqual(self.snapshot["zones"][domain]["apex_a"], [address])
-            self.assertEqual(self.snapshot["zones"][domain]["www_a"], [address])
+        for domain, address in MAILPOOL_A.items():
             self.assertIn(address, runbook)
+            self.assertIn(self.targets["repos"][domain], runbook)
+        blob = "\n".join(
+            path.read_text(errors="replace")
+            for path in KITS.rglob("*")
+            if path.is_file() and "tests" not in path.parts and "__pycache__" not in path.parts
+        )
+        self.assertNotIn("v=DKIM1", blob)
+        self.assertNotIn("google-site-verification=", blob)
+        self.assertFalse((KITS / "dns").exists())
 
     def test_post_checker_accepts_only_the_fixed_setup(self) -> None:
         zone = "trainingdatascoutco.com"
-        saved = self.snapshot["zones"][zone]
         good = {
             "apex_a": list(self.targets["apex_a"]),
             "apex_aaaa": list(self.targets["apex_aaaa"]),
-            "apex_mx": list(saved["apex_mx"]),
-            "apex_txt": list(saved["apex_txt"]),
             "www_a": [],
             "www_cname": [self.targets["www_cname_fqdn"]],
-            "dmarc_txt": list(saved["dmarc_txt"]),
-            "dkim_google_txt": list(saved["dkim_google_txt"]),
-            "ns": list(saved["ns"]),
             "apex_status": "200",
             "apex_location": "",
             "apex_server": "GitHub.com",
             "www_location": "https://trainingdatascoutco.com/",
             "cert_names": [zone, f"www.{zone}"],
         }
-        self.assertEqual(assess_post(zone, good, self.snapshot, self.targets), [])
+        self.assertEqual(assess_post(zone, good, self.targets), [])
         leaked = dict(good, apex_location=DESTINATION)
-        self.assertTrue(assess_post(zone, leaked, self.snapshot, self.targets))
+        self.assertTrue(assess_post(zone, leaked, self.targets))
         wrong_www = dict(good, www_cname=["trainingdatascout.com."])
-        self.assertTrue(assess_post(zone, wrong_www, self.snapshot, self.targets))
+        self.assertTrue(assess_post(zone, wrong_www, self.targets))
         leftover = dict(good, apex_a=list(self.targets["apex_a"]) + ["35.208.109.108"])
-        self.assertTrue(assess_post(zone, leftover, self.snapshot, self.targets))
+        self.assertTrue(assess_post(zone, leftover, self.targets))
 
     def test_landing_repository_files_match_origin_main(self) -> None:
         self.assertEqual((ROOT / "CNAME").read_bytes(), b"trainingdatascout.com")
@@ -464,16 +456,14 @@ class RedirectKitTests(unittest.TestCase):
 
 def live_dns(mode: str) -> int:
     targets = load_json("github-pages-targets.json")
-    snapshot = load_json("dns/observed-2026-11-07.json")
     failed = False
     for zone in DOMAINS:
-        observed = zone_observation(zone)
+        observed = address_observation(zone)
         if mode == "pre":
-            saved = snapshot["zones"][zone]
             zone_errors = []
-            for label in ("apex_a", "www_a", "apex_mx", "apex_txt", "dmarc_txt", "dkim_google_txt", "ns"):
-                if observed[label] != saved[label]:
-                    zone_errors.append(f"{label}: live {observed[label]} snapshot {saved[label]}")
+            expected = [MAILPOOL_A[zone]]
+            if observed["apex_a"] != expected or observed["www_a"] != expected:
+                zone_errors.append(f"address records {observed}")
             if observed["apex_aaaa"] or observed["www_cname"]:
                 zone_errors.append(f"unexpected address records {observed}")
             if zone_errors:
@@ -482,7 +472,7 @@ def live_dns(mode: str) -> int:
                 for error in zone_errors:
                     print(f"  {error}")
             else:
-                print(f"PRE {zone} matches snapshot")
+                print(f"PRE {zone} still uses {expected[0]} for apex and www")
             continue
         apex = header_map(f"https://{zone}/")
         www = header_map(f"https://www.{zone}/")
@@ -493,7 +483,7 @@ def live_dns(mode: str) -> int:
             "www_location": www["location"],
             "cert_names": certificate_names(zone),
         })
-        errors = assess_post(zone, observed, snapshot, targets)
+        errors = assess_post(zone, observed, targets)
         if errors:
             failed = True
             print(f"POST {zone}")

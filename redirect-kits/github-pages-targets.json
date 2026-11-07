@@ -24,9 +24,9 @@
   "www_cname_fqdn": "louismalingrey-spec.github.io.",
   "verification_txt_host": "_github-pages-challenge-louismalingrey-spec",
   "repos": {
-    "trainingdatascoutco.com": "redirect-trainingdatascoutco",
-    "trainingdatascoutfirm.com": "redirect-trainingdatascoutfirm",
-    "trainingdatascoutgroup.com": "redirect-trainingdatascoutgroup",
-    "trainingdatascoutpartners.com": "redirect-trainingdatascoutpartners"
+    "trainingdatascoutco.com": "trainingdatascoutco-redirect",
+    "trainingdatascoutfirm.com": "trainingdatascoutfirm-redirect",
+    "trainingdatascoutgroup.com": "trainingdatascoutgroup-redirect",
+    "trainingdatascoutpartners.com": "trainingdatascoutpartners-redirect"
   }
 }
